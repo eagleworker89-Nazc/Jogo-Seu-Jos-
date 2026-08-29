@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Seu José</title>
+<title>Seu José - Endless Runner</title>
 <style>
     * { box-sizing: border-box; }
 
@@ -13,7 +13,7 @@
         height: 100%;
         overflow: hidden;
         background: #111827;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial, sans-serif;
         touch-action: none;
         user-select: none;
     }
@@ -22,7 +22,6 @@
         position: relative;
         width: 100vw;
         height: 100vh;
-        overflow: hidden;
         background: #111827;
     }
 
@@ -34,39 +33,33 @@
 
     #hud {
         position: absolute;
-        top: 14px;
-        left: 14px;
-        right: 14px;
+        top: 10px;
+        left: 10px;
+        right: 10px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        pointer-events: none;
-        z-index: 5;
+        z-index: 100;
     }
 
     .hud-box {
-        padding: 9px 15px;
-        border: 2px solid rgba(255,255,255,.75);
-        border-radius: 12px;
-        background: rgba(24,34,56,.78);
+        padding: 6px 12px;
+        border: 2px solid white;
+        border-radius: 8px;
+        background: rgba(0,0,0,.7);
         color: white;
-        font-weight: 800;
-        font-size: 18px;
-        text-shadow: 1px 2px 0 #000;
-        box-shadow: 0 4px 12px rgba(0,0,0,.25);
+        font-weight: bold;
+        font-size: 14px;
     }
 
     #titleHud {
         position: absolute;
-        top: 14px;
+        top: 10px;
         left: 50%;
         transform: translateX(-50%);
         color: white;
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 900;
-        text-shadow: 2px 2px 0 #182238;
-        pointer-events: none;
-        z-index: 5;
+        z-index: 100;
     }
 
     #overlay {
@@ -75,122 +68,82 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: rgba(8,15,30,.60);
-        z-index: 20;
-        transition: opacity .2s;
+        background: rgba(0,0,0,.8);
+        z-index: 200;
     }
 
     #overlay.hidden {
-        opacity: 0;
-        pointer-events: none;
+        display: none;
     }
 
     .panel {
-        width: min(90vw, 560px);
-        padding: 35px 28px;
+        width: min(85vw, 450px);
+        padding: 25px;
         text-align: center;
-        border-radius: 24px;
-        border: 3px solid rgba(255,255,255,.85);
-        background: linear-gradient(#243552, #182238);
+        border-radius: 15px;
+        border: 2px solid white;
+        background: #182238;
         color: white;
-        box-shadow: 0 18px 60px rgba(0,0,0,.5);
     }
 
     #overlayTitle {
-        margin: 0 0 12px;
-        font-size: clamp(42px, 8vw, 76px);
-        line-height: 1;
+        margin: 0 0 10px;
+        font-size: 42px;
         color: #fff;
-        text-shadow: 4px 4px 0 #ef476f;
     }
 
     #overlayText {
-        margin: 12px auto 25px;
-        max-width: 460px;
-        font-size: 18px;
-        line-height: 1.45;
-        color: #f4f7fb;
+        margin: 10px 0 20px;
+        font-size: 14px;
+        line-height: 1.4;
     }
 
     #restart {
         border: 0;
-        border-radius: 15px;
-        padding: 15px 42px;
+        border-radius: 10px;
+        padding: 10px 30px;
         background: #ef476f;
         color: white;
-        font-size: 22px;
-        font-weight: 900;
+        font-size: 16px;
+        font-weight: bold;
         cursor: pointer;
-        box-shadow: 0 5px 0 #a92345;
-        touch-action: manipulation;
-    }
-
-    #restart:active {
-        transform: translateY(4px);
-        box-shadow: 0 1px 0 #a92345;
     }
 
     #touchControls {
-        position: absolute;
+        position: fixed;
         left: 0;
         right: 0;
-        bottom: 18px;
+        bottom: 12px;
         display: flex;
         justify-content: space-between;
-        padding: 0 20px;
-        z-index: 10;
+        padding: 0 15px;
+        z-index: 50;
         pointer-events: none;
     }
 
     .touch-group {
         display: flex;
-        gap: 12px;
+        gap: 8px;
         pointer-events: auto;
     }
 
     .touch-btn {
-        width: 68px;
-        height: 68px;
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
-        border: 2px solid rgba(255,255,255,.65);
-        background: rgba(24,34,56,.72);
+        border: 2px solid white;
+        background: rgba(0,0,0,.7);
         color: white;
-        font-size: 28px;
-        font-weight: 900;
-        box-shadow: 0 5px 15px rgba(0,0,0,.3);
-        -webkit-tap-highlight-color: transparent;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all .05s;
+        padding: 0;
     }
 
-    .touch-btn.down {
-        transform: scale(.92);
-        background: rgba(239,71,111,.9);
-    }
-
-    #startHint {
-        margin-top: 15px;
-        opacity: .8;
-        font-size: 14px;
-    }
-
-    @media (min-width: 800px) and (pointer: fine) {
-        #touchControls {
-            opacity: .35;
-        }
-    }
-
-    @media (max-height: 500px) {
-        .touch-btn {
-            width: 56px;
-            height: 56px;
-        }
-
-        #touchControls {
-            bottom: 10px;
-        }
-
-        .panel {
-            padding: 22px;
-        }
+    .touch-btn:active {
+        background: #ef476f;
+        transform: scale(.95);
     }
 </style>
 </head>
@@ -208,12 +161,11 @@
 
     <div id="touchControls">
         <div class="touch-group">
-            <button class="touch-btn" data-key="left" aria-label="Esquerda">◀</button>
-            <button class="touch-btn" data-key="right" aria-label="Direita">▶</button>
+            <button class="touch-btn" id="btnLeft">◀</button>
+            <button class="touch-btn" id="btnRight">▶</button>
         </div>
-
         <div class="touch-group">
-            <button class="touch-btn" data-key="jump" aria-label="Pular">▲</button>
+            <button class="touch-btn" id="btnJump">▲</button>
         </div>
     </div>
 
@@ -221,13 +173,10 @@
         <div class="panel">
             <h1 id="overlayTitle">SEU JOSÉ</h1>
             <p id="overlayText">
-                Uma aventura pixel cheia de obstáculos!<br>
-                Corra, pule nos inimigos, pegue as moedas e chegue até a bandeira.
+                Corra, pule e pegue as moedas!<br>
+                Desvia dos inimigos.
             </p>
-            <button id="restart">START</button>
-            <div id="startHint">
-                Teclado: A/D ou ←/→ para andar • Espaço/W/↑ para pular
-            </div>
+            <button id="restart">JOGAR</button>
         </div>
     </div>
 </div>
@@ -235,52 +184,29 @@
 <script>
 'use strict';
 
-/* =========================================================
-   SEU JOSÉ
-   Jogo Canvas sem dependências externas.
-   Os sprites devem ficar na MESMA PASTA deste HTML.
-   ========================================================= */
-
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
-const shell = document.getElementById('shell');
-const coinsEl = document.getElementById('coins');
-const livesEl = document.getElementById('lives');
-const overlay = document.getElementById('overlay');
-const titleEl = document.getElementById('overlayTitle');
-const textEl = document.getElementById('overlayText');
-const restartButton = document.getElementById('restart');
-
 const VW = 960;
 const VH = 540;
-
-/* Fase aumentada */
 const worldW = 10800;
 const gravity = 1800;
 
-const keys = {
-    left: false,
-    right: false,
-    jump: false
-};
-
-let scale = 1;
-let ox = 0;
-let oy = 0;
-let last = 0;
-let acc = 0;
 let gameState = 'menu';
 let score = 0;
 let lives = 3;
 let camera = 0;
+let scale = 1;
+let ox = 0, oy = 0;
+let last = 0, acc = 0;
+
+const keys = { left: false, right: false, jump: false };
 
 /* =========================================================
-   SPRITES - NOMES CORRIGIDOS
+   SPRITES - 11 ARQUIVOS
    ========================================================= */
 
 const spriteNames = [
-    'jogador_em_pé1_png.png',
     'jogador_parado.png',
     'jogador_corre1.png',
     'jogador_corre2.png',
@@ -294,19 +220,25 @@ const spriteNames = [
 ];
 
 const sprites = {};
+let spritesLoaded = 0;
 
 spriteNames.forEach(name => {
     const img = new Image();
-
     img.src = name;
-
-    img.onerror = () => {
-        img.failed = true;
-        console.warn('Sprite não encontrado:', name);
+    
+    img.onload = () => {
+        spritesLoaded++;
+        console.log(`✅ Sprite: ${name}`);
     };
-
+    
+    img.onerror = () => {
+        console.error(`❌ Erro: ${name}`);
+    };
+    
     sprites[name] = img;
 });
+
+const standSprite = sprites['jogador_parado.png'];
 
 const runFrames = [
     sprites['jogador_corre1.png'],
@@ -316,8 +248,15 @@ const runFrames = [
     sprites['jogador_corre5.png']
 ];
 
+const jumpFrames = [
+    sprites['jogador_pulo1.png'],
+    sprites['jogador_pulo2.png'],
+    sprites['jogador_pulo3.png'],
+    sprites['jogador_pulo4.png']
+];
+
 /* =========================================================
-   JOGADOR
+   PLAYER
    ========================================================= */
 
 const player = {
@@ -335,7 +274,7 @@ const player = {
 };
 
 /* =========================================================
-   PLATAFORMAS
+   WORLD
    ========================================================= */
 
 const platforms = [
@@ -363,106 +302,78 @@ const platforms = [
     { x: 9200, y: 430, w: 1600, h: 110 }
 ];
 
-/* =========================================================
-   MOEDAS
-   ========================================================= */
-
-const coins = [
-    { x: 520, y: 260, r: 12, taken: false, phase: 0 },
-    { x: 680, y: 260, r: 12, taken: false, phase: 1 },
-    { x: 920, y: 160, r: 12, taken: false, phase: 2 },
-    { x: 1320, y: 280, r: 12, taken: false, phase: 3 },
-    { x: 1770, y: 200, r: 12, taken: false, phase: 4 },
-    { x: 2170, y: 110, r: 12, taken: false, phase: 0 },
-    { x: 2600, y: 240, r: 12, taken: false, phase: 1 },
-    { x: 3070, y: 150, r: 12, taken: false, phase: 2 },
-    { x: 3470, y: 280, r: 12, taken: false, phase: 3 },
-    { x: 3920, y: 200, r: 12, taken: false, phase: 4 },
-    { x: 4350, y: 100, r: 12, taken: false, phase: 0 },
-    { x: 4850, y: 240, r: 12, taken: false, phase: 1 },
-    { x: 5250, y: 150, r: 12, taken: false, phase: 2 },
-    { x: 5700, y: 280, r: 12, taken: false, phase: 3 },
-    { x: 6100, y: 200, r: 12, taken: false, phase: 4 },
-    { x: 6600, y: 100, r: 12, taken: false, phase: 0 },
-    { x: 7000, y: 240, r: 12, taken: false, phase: 1 },
-    { x: 7450, y: 150, r: 12, taken: false, phase: 2 },
-    { x: 7850, y: 280, r: 12, taken: false, phase: 3 },
-    { x: 8350, y: 200, r: 12, taken: false, phase: 4 }
-];
-
-/* =========================================================
-   INIMIGOS
-   ========================================================= */
+const coins = [];
+for (let i = 0; i < 20; i++) {
+    coins.push({
+        x: 520 + i * 500,
+        y: 200 + Math.sin(i) * 100,
+        r: 12,
+        taken: false
+    });
+}
 
 const enemies = [
-    { x: 300, y: 380, w: 48, h: 48, vx: -100, alive: true, color: '#ef476f' },
-    { x: 1100, y: 180, w: 40, h: 40, vx: 80, alive: true, color: '#ef476f' },
-    { x: 1950, y: 220, w: 40, h: 40, vx: -100, alive: true, color: '#ef476f' },
-    { x: 2800, y: 260, w: 40, h: 40, vx: 80, alive: true, color: '#ef476f' },
-    { x: 3700, y: 300, w: 40, h: 40, vx: -90, alive: true, color: '#ef476f' },
-    { x: 4600, y: 160, w: 40, h: 40, vx: 100, alive: true, color: '#ef476f' },
-    { x: 5400, y: 180, w: 40, h: 40, vx: -80, alive: true, color: '#ef476f' },
-    { x: 6200, y: 140, w: 40, h: 40, vx: 110, alive: true, color: '#ef476f' },
-    { x: 7100, y: 180, w: 40, h: 40, vx: -95, alive: true, color: '#ef476f' },
-    { x: 7900, y: 300, w: 40, h: 40, vx: 90, alive: true, color: '#ef476f' },
-    { x: 8600, y: 220, w: 40, h: 40, vx: -100, alive: true, color: '#ef476f' }
-];
-
-const flyingEnemies = [
-    { x: 720, y: 180, w: 40, h: 40, vx: 120, baseY: 180, amp: 50, speed: 2, phase: 0, min: 650, max: 850, alive: true, color: '#a335ee' },
-    { x: 1550, y: 140, w: 40, h: 40, vx: -100, baseY: 140, amp: 60, speed: 2.2, phase: 1.5, min: 1400, max: 1750, alive: true, color: '#a335ee' },
-    { x: 2400, y: 180, w: 40, h: 40, vx: 110, baseY: 180, amp: 45, speed: 2.1, phase: 0.5, min: 2250, max: 2600, alive: true, color: '#a335ee' },
-    { x: 3350, y: 150, w: 40, h: 40, vx: -120, baseY: 150, amp: 55, speed: 2.3, phase: 1, min: 3150, max: 3550, alive: true, color: '#a335ee' },
-    { x: 4250, y: 120, w: 40, h: 40, vx: 100, baseY: 120, amp: 40, speed: 1.9, phase: 2, min: 4050, max: 4450, alive: true, color: '#a335ee' },
-    { x: 5150, y: 170, w: 40, h: 40, vx: -110, baseY: 170, amp: 50, speed: 2.2, phase: 0.8, min: 4950, max: 5350, alive: true, color: '#a335ee' },
-    { x: 5950, y: 130, w: 40, h: 40, vx: 105, baseY: 130, amp: 48, speed: 2, phase: 1.3, min: 5750, max: 6150, alive: true, color: '#a335ee' },
-    { x: 6850, y: 180, w: 40, h: 40, vx: -115, baseY: 180, amp: 52, speed: 2.1, phase: 0.6, min: 6650, max: 7050, alive: true, color: '#a335ee' },
-    { x: 7650, y: 140, w: 40, h: 40, vx: 100, baseY: 140, amp: 45, speed: 2.3, phase: 1.7, min: 7450, max: 7850, alive: true, color: '#a335ee' },
-    { x: 8500, y: 170, w: 40, h: 40, vx: -120, baseY: 170, amp: 55, speed: 2, phase: 0.4, min: 8250, max: 8750, alive: true, color: '#a335ee' }
+    { x: 300, y: 380, w: 48, h: 48, vx: -100, alive: true },
+    { x: 1100, y: 180, w: 40, h: 40, vx: 80, alive: true },
+    { x: 1950, y: 220, w: 40, h: 40, vx: -100, alive: true },
+    { x: 2800, y: 260, w: 40, h: 40, vx: 80, alive: true },
+    { x: 3700, y: 300, w: 40, h: 40, vx: -90, alive: true },
+    { x: 4600, y: 160, w: 40, h: 40, vx: 100, alive: true },
+    { x: 5400, y: 180, w: 40, h: 40, vx: -80, alive: true },
+    { x: 6200, y: 140, w: 40, h: 40, vx: 110, alive: true },
+    { x: 7100, y: 180, w: 40, h: 40, vx: -95, alive: true },
+    { x: 7900, y: 300, w: 40, h: 40, vx: 90, alive: true }
 ];
 
 const goal = { x: 10680, y: 350, w: 50, h: 80 };
 
 /* =========================================================
-   FUNÇÕES DE COLISÃO
+   FUNÇÕES
    ========================================================= */
 
 function rectsOverlap(r1, r2) {
-    return (
-        r1.x < r2.x + r2.w &&
-        r1.x + r1.w > r2.x &&
-        r1.y < r2.y + r2.h &&
-        r1.y + r1.h > r2.y
-    );
+    return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x &&
+           r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
 }
 
-/* =========================================================
-   FUNÇÕES DE JOGO
-   ========================================================= */
-
 function updateHud() {
-    coinsEl.textContent = score;
-    livesEl.textContent = lives;
+    document.getElementById('coins').textContent = score;
+    document.getElementById('lives').textContent = lives;
 }
 
 function updateCanvasSize() {
-    const w = shell.clientWidth;
-    const h = shell.clientHeight;
-
+    const w = window.innerWidth;
+    const h = window.innerHeight;
     canvas.width = w;
     canvas.height = h;
-
     scale = Math.min(w / VW, h / VH);
-
     ox = (w - VW * scale) / 2;
     oy = (h - VH * scale) / 2;
 }
 
+function startGame() {
+    gameState = 'playing';
+    score = 0;
+    lives = 3;
+    player.x = 120;
+    player.y = 300;
+    player.vx = 0;
+    player.vy = 0;
+    player.anim = 0;
+    camera = 0;
+    coins.forEach(c => c.taken = false);
+    enemies.forEach(e => e.alive = true);
+    document.getElementById('overlay').classList.add('hidden');
+    updateHud();
+}
+
 function respawn() {
     lives--;
-
     if (lives <= 0) {
-        endGame(false);
+        gameState = 'end';
+        document.getElementById('overlayTitle').textContent = 'GAME OVER';
+        document.getElementById('overlayText').textContent = `Pontuação: ${score}`;
+        document.getElementById('overlay').classList.remove('hidden');
     } else {
         player.x = 120;
         player.y = 300;
@@ -474,51 +385,14 @@ function respawn() {
     }
 }
 
-function endGame(won) {
-    gameState = 'end';
-
-    overlay.classList.remove('hidden');
-
-    if (won) {
-        titleEl.textContent = '🏁 PARABÉNS!';
-        textEl.textContent = `Você conseguiu vencer! Pontuação final: ${score}`;
-    } else {
-        titleEl.textContent = 'GAME OVER';
-        textEl.textContent = `Você chegou até ${Math.floor(player.x)} pixels. Pontuação: ${score}`;
-    }
-}
-
-function startGame() {
-    gameState = 'playing';
-    score = 0;
-    lives = 3;
-    player.x = 120;
-    player.y = 300;
-    player.vx = 0;
-    player.vy = 0;
-    player.inv = 0;
-    player.anim = 0;
-    camera = 0;
-
-    coins.forEach(c => c.taken = false);
-    enemies.forEach(e => e.alive = true);
-    flyingEnemies.forEach(e => e.alive = true);
-
-    overlay.classList.add('hidden');
-    updateHud();
-}
-
 /* =========================================================
    EVENT LISTENERS
    ========================================================= */
 
-restartButton.addEventListener('click', startGame);
-
-window.addEventListener('resize', updateCanvasSize);
+document.getElementById('restart').addEventListener('click', startGame);
 
 document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
-
     if (k === 'a' || k === 'arrowleft') keys.left = true;
     if (k === 'd' || k === 'arrowright') keys.right = true;
     if (k === ' ' || k === 'w' || k === 'arrowup') {
@@ -529,39 +403,41 @@ document.addEventListener('keydown', e => {
 
 document.addEventListener('keyup', e => {
     const k = e.key.toLowerCase();
-
     if (k === 'a' || k === 'arrowleft') keys.left = false;
     if (k === 'd' || k === 'arrowright') keys.right = false;
     if (k === ' ' || k === 'w' || k === 'arrowup') keys.jump = false;
 });
 
-const touchButtons = document.querySelectorAll('.touch-btn');
+// CONTROLES TOUCH - SEM TRAVAR
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+const btnJump = document.getElementById('btnJump');
 
-touchButtons.forEach(btn => {
-    const key = btn.dataset.key;
-
+function setupButton(btn, keyName) {
+    function setPressed(pressed) {
+        keys[keyName] = pressed;
+    }
+    
     btn.addEventListener('touchstart', e => {
         e.preventDefault();
-        keys[key] = true;
-        btn.classList.add('down');
+        setPressed(true);
     });
-
+    
     btn.addEventListener('touchend', e => {
         e.preventDefault();
-        keys[key] = false;
-        btn.classList.remove('down');
+        setPressed(false);
     });
+    
+    btn.addEventListener('mousedown', () => setPressed(true));
+    btn.addEventListener('mouseup', () => setPressed(false));
+    btn.addEventListener('mouseleave', () => setPressed(false));
+}
 
-    btn.addEventListener('mousedown', () => {
-        keys[key] = true;
-        btn.classList.add('down');
-    });
+setupButton(btnLeft, 'left');
+setupButton(btnRight, 'right');
+setupButton(btnJump, 'jump');
 
-    btn.addEventListener('mouseup', () => {
-        keys[key] = false;
-        btn.classList.remove('down');
-    });
-});
+window.addEventListener('resize', updateCanvasSize);
 
 /* =========================================================
    UPDATE
@@ -573,20 +449,11 @@ function update(dt) {
     player.lastOnGround = player.onGround;
     player.onGround = false;
 
-    /* =====================================================
-       ACELERAÇÃO HORIZONTAL
-       ===================================================== */
-
     let targetVx = 0;
-
     if (keys.left) targetVx -= 300;
     if (keys.right) targetVx += 300;
 
     player.vx += (targetVx - player.vx) * 0.15;
-
-    /* =====================================================
-       SALTO
-       ===================================================== */
 
     if (keys.jump && player.onGround) {
         player.vy = -800;
@@ -594,20 +461,13 @@ function update(dt) {
     }
 
     player.vy += gravity * dt;
-
     player.x += player.vx * dt;
     player.y += player.vy * dt;
 
     if (player.vy > 0) {
-        player.onGround = false;
-
         for (const p of platforms) {
-            if (
-                player.x + player.w > p.x &&
-                player.x < p.x + p.w &&
-                player.y + player.h >= p.y &&
-                player.y + player.h <= p.y + 30
-            ) {
+            if (player.x + player.w > p.x && player.x < p.x + p.w &&
+                player.y + player.h >= p.y && player.y + player.h <= p.y + 30) {
                 player.y = p.y - player.h;
                 player.vy = 0;
                 player.onGround = true;
@@ -618,54 +478,29 @@ function update(dt) {
 
     if (player.y > 540 + 100) {
         respawn();
-
         if (gameState !== 'playing') return;
     }
 
     player.dir = player.vx > 0 ? 1 : player.vx < 0 ? -1 : player.dir;
-
     player.anim += dt * 4;
-
     if (player.inv > 0) player.inv -= dt;
 
-    /* =====================================================
-       MOEDAS
-       ===================================================== */
-
     for (const c of coins) {
-        if (c.taken) continue;
-
-        if (rectsOverlap(player, c)) {
+        if (!c.taken && rectsOverlap(player, c)) {
             c.taken = true;
             score += 10;
             updateHud();
         }
     }
 
-    /* =====================================================
-       INIMIGOS TERRESTRES
-       ===================================================== */
-
     for (const e of enemies) {
         if (!e.alive) continue;
-
         e.x += e.vx * dt;
-
-        if (e.x <= 0) {
-            e.x = 0;
-            e.vx = Math.abs(e.vx);
-        }
-
-        if (e.x + e.w >= worldW) {
-            e.x = worldW - e.w;
-            e.vx = -Math.abs(e.vx);
-        }
+        if (e.x <= 0) { e.x = 0; e.vx = Math.abs(e.vx); }
+        if (e.x + e.w >= worldW) { e.x = worldW - e.w; e.vx = -Math.abs(e.vx); }
 
         if (rectsOverlap(player, e)) {
-            const stomp =
-                player.vy > 0 &&
-                player.y + player.h - player.vy * dt <= e.y + 18;
-
+            const stomp = player.vy > 0 && player.y + player.h - player.vy * dt <= e.y + 18;
             if (stomp) {
                 e.alive = false;
                 player.y = e.y - player.h;
@@ -674,244 +509,72 @@ function update(dt) {
                 updateHud();
             } else if (player.inv <= 0) {
                 respawn();
-
                 if (gameState !== 'playing') return;
             }
         }
     }
-
-    /* =====================================================
-       INIMIGOS VOADORES
-       ===================================================== */
-
-    for (const e of flyingEnemies) {
-        if (!e.alive) continue;
-
-        e.x += e.vx * dt;
-
-        if (e.x <= e.min) {
-            e.x = e.min;
-            e.vx = Math.abs(e.vx);
-        }
-
-        if (e.x + e.w >= e.max) {
-            e.x = e.max - e.w;
-            e.vx = -Math.abs(e.vx);
-        }
-
-        e.y = e.baseY + Math.sin(player.anim * e.speed + e.phase) * e.amp;
-
-        if (rectsOverlap(player, e)) {
-            const stomp =
-                player.vy > 0 &&
-                player.y + player.h - player.vy * dt <= e.y + 18;
-
-            if (stomp) {
-                e.alive = false;
-                player.y = e.y - player.h;
-                player.vy = -520;
-                score += 20;
-                updateHud();
-            } else if (player.inv <= 0) {
-                respawn();
-
-                if (gameState !== 'playing') return;
-            }
-        }
-    }
-
-    /* =====================================================
-       VITÓRIA
-       ===================================================== */
 
     if (rectsOverlap(player, goal)) {
-        endGame(true);
+        gameState = 'end';
+        document.getElementById('overlayTitle').textContent = '🏁 VITÓRIA!';
+        document.getElementById('overlayText').textContent = `Pontuação: ${score}`;
+        document.getElementById('overlay').classList.remove('hidden');
         return;
     }
 
-    /* =====================================================
-       CÂMERA
-       ===================================================== */
-
     let targetCam = player.x - VW / 3;
-
     if (targetCam < 0) targetCam = 0;
     if (targetCam > worldW - VW) targetCam = worldW - VW;
-
     camera += (targetCam - camera) * 0.1;
 }
 
 /* =========================================================
-   DESENHO DE SPRITE
+   DRAW
    ========================================================= */
 
 function drawSprite(img, x, y, w, h) {
-    if (
-        img &&
-        img.complete &&
-        !img.failed &&
-        img.naturalWidth > 0
-    ) {
+    if (img && img.complete && img.naturalWidth > 0) {
         ctx.drawImage(img, x, y, w, h);
         return true;
     }
-
     return false;
 }
 
-/* =========================================================
-   DESENHO
-   ========================================================= */
-
-function drawBackground() {
-    /* Céu */
+function draw() {
     ctx.fillStyle = '#72d8ff';
     ctx.fillRect(0, 0, VW, VH);
 
-    /* Sol */
     ctx.fillStyle = '#fff1a8';
     ctx.beginPath();
     ctx.arc(820, 90, 45, 0, Math.PI * 2);
     ctx.fill();
 
-    /* Nuvens */
-    drawCloud(150, 95, 1);
-    drawCloud(480, 130, .8);
-    drawCloud(760, 180, .65);
-}
-
-function drawCloud(x, y, s) {
-    ctx.fillStyle = 'rgba(255,255,255,.72)';
-
-    ctx.beginPath();
-    ctx.arc(x, y, 25 * s, 0, Math.PI * 2);
-    ctx.arc(x + 30 * s, y - 12 * s, 32 * s, 0, Math.PI * 2);
-    ctx.arc(x + 65 * s, y, 25 * s, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-function drawGroundDecoration() {
-    /* Pequenas plantas / detalhes do chão */
-    for (let x = 0; x < worldW; x += 180) {
-        ctx.fillStyle = '#17647d';
-        ctx.fillRect(x + 20, 432, 5, 18);
-        ctx.fillRect(x + 10, 438, 25, 5);
-    }
-}
-
-function draw() {
-    drawBackground();
-
     ctx.save();
     ctx.translate(-camera, 0);
 
-    drawGroundDecoration();
-
-    /* Plataformas */
     platforms.forEach(p => {
         ctx.fillStyle = '#227c9d';
         ctx.fillRect(p.x, p.y, p.w, p.h);
-
         ctx.fillStyle = '#fff7df';
         ctx.fillRect(p.x, p.y, p.w, 4);
     });
 
-    /* Moedas */
     coins.forEach(c => {
         if (c.taken) return;
-
-        const bob = Math.sin(player.anim * 4 + c.phase) * 4;
-
         ctx.fillStyle = '#ffa502';
         ctx.beginPath();
-        ctx.arc(c.x, c.y + bob, c.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = '#ffd166';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        ctx.fillStyle = '#fff1a8';
-        ctx.beginPath();
-        ctx.arc(c.x - 4, c.y - 4 + bob, 3, 0, Math.PI * 2);
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         ctx.fill();
     });
-
-    /* =====================================================
-       INIMIGOS TERRESTRES
-       ===================================================== */
 
     enemies.forEach(e => {
         if (!e.alive) return;
-
-        ctx.fillStyle = e.color;
+        ctx.fillStyle = '#ef476f';
         ctx.fillRect(e.x, e.y, e.w, e.h);
-
-        /* Olhos */
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(e.x + 9, e.y + 9, 10, 10);
-        ctx.fillRect(e.x + 29, e.y + 9, 10, 10);
-
-        ctx.fillStyle = '#182238';
-        ctx.fillRect(e.x + 13, e.y + 13, 5, 5);
-        ctx.fillRect(e.x + 33, e.y + 13, 5, 5);
     });
-
-    /* =====================================================
-       INIMIGOS VOADORES
-       ===================================================== */
-
-    flyingEnemies.forEach(e => {
-        if (!e.alive) return;
-
-        /* Asas */
-        ctx.fillStyle = 'rgba(255,255,255,.9)';
-
-        ctx.beginPath();
-        ctx.ellipse(
-            e.x + 8,
-            e.y + 16,
-            17,
-            9,
-            -0.4,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(
-            e.x + e.w - 8,
-            e.y + 16,
-            17,
-            9,
-            0.4,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
-
-        /* Corpo */
-        ctx.fillStyle = e.color;
-        ctx.fillRect(e.x + 8, e.y + 5, e.w - 16, e.h - 10);
-
-        /* Olhos */
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(e.x + 16, e.y + 12, 9, 9);
-        ctx.fillRect(e.x + 28, e.y + 12, 9, 9);
-
-        ctx.fillStyle = '#182238';
-        ctx.fillRect(e.x + 19, e.y + 15, 4, 4);
-        ctx.fillRect(e.x + 31, e.y + 15, 4, 4);
-    });
-
-    /* =====================================================
-       BANDEIRA FINAL
-       ===================================================== */
 
     ctx.fillStyle = '#182238';
     ctx.fillRect(goal.x, goal.y, 5, goal.h);
-
     ctx.fillStyle = '#ef476f';
     ctx.beginPath();
     ctx.moveTo(goal.x + 5, goal.y);
@@ -920,40 +583,25 @@ function draw() {
     ctx.closePath();
     ctx.fill();
 
-    /* =====================================================
-       SPRITE DO JOGADOR
-       ===================================================== */
-
-    let activeSprite = sprites['jogador_em_pé1_png.png'];
+    // SPRITE - SEM PISCAR
+    let activeSprite = standSprite;
 
     if (!player.onGround) {
-        if (player.vy < -200) {
-            activeSprite = sprites['jogador_pulo1.png'];
-        } else if (player.vy <= 150) {
-            activeSprite = sprites['jogador_pulo2.png'];
-        } else {
-            activeSprite = sprites['jogador_pulo3.png'];
-        }
-    } else if (!player.lastOnGround && player.onGround) {
-        activeSprite = sprites['jogador_pulo4.png'];
+        const frameIndex = Math.min(Math.floor(player.anim * 6), jumpFrames.length - 1);
+        activeSprite = jumpFrames[frameIndex];
     } else if (Math.abs(player.vx) > 15) {
-        const frame = Math.floor(player.anim * 12) % runFrames.length;
-        activeSprite = runFrames[frame];
+        const frameIndex = Math.floor(player.anim * 12) % runFrames.length;
+        activeSprite = runFrames[frameIndex];
     }
 
     ctx.save();
-
-    if (
-        player.inv > 0 &&
-        Math.floor(player.anim * 15) % 2 === 0
-    ) {
+    if (player.inv > 0 && Math.floor(player.anim * 15) % 2 === 0) {
         ctx.globalAlpha = 0.3;
     }
 
     if (player.dir === -1) {
         ctx.translate(player.x + player.w, player.y);
         ctx.scale(-1, 1);
-
         if (!drawSprite(activeSprite, 0, 0, player.w, player.h)) {
             ctx.fillStyle = '#ef476f';
             ctx.fillRect(0, 0, player.w, player.h);
@@ -975,14 +623,11 @@ function draw() {
 
 function loop(t) {
     if (!last) last = t;
-
     let dt = (t - last) / 1000;
     last = t;
-
     if (dt > 0.1) dt = 0.1;
 
     acc += dt;
-
     while (acc >= 1 / 120) {
         update(1 / 120);
         acc -= 1 / 120;
@@ -992,10 +637,8 @@ function loop(t) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.save();
-
     ctx.translate(ox, oy);
     ctx.scale(scale, scale);
-
     ctx.beginPath();
     ctx.rect(0, 0, VW, VH);
     ctx.clip();
